@@ -7,7 +7,7 @@ import Path from './lib/path';
 function App() {
   return (
     <div className="app">
-      <Graphics />
+      <Path />
     </div>
   );
 }
