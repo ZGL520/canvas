@@ -4,8 +4,9 @@ export default class Path extends Component {
 
   componentDidMount(){
     // this.showTriangle();
+    this.showTriangleFill();
     // this.showArc()
-    this.showQuadraticCurveTo()
+    // this.showQuadraticCurveTo()
   }
   showTriangle = () => {
     const e = document.getElementById('canvas');
@@ -15,7 +16,17 @@ export default class Path extends Component {
     ctx.lineTo(50, 10);
     ctx.lineTo(30, 30);
     ctx.closePath();
-    ctx.stroke()
+    ctx.stroke();
+  }
+  showTriangleFill = () => {
+    const e = document.getElementById('canvas');
+    const ctx = e.getContext('2d');
+    ctx.beginPath();
+    ctx.moveTo(100, 50);
+    ctx.lineTo(50, 10);
+    ctx.lineTo(30, 30);
+    ctx.closePath();
+    ctx.fill();
   }
   showArc = () => {
     const e = document.getElementById('canvas');
