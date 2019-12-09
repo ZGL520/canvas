@@ -108,7 +108,7 @@ ctx.clearRect(220, 170, 50, 50)
 ```
 不过第二个矩形比较幸运的是只有一部分被clear了，另一部分挖在了没有被矩形覆盖的canvas画布上
 
-## 2，路径
+## 2，路径基础画法
 ### 1，如何绘制一个图形
 接着我们来聊一下通过路径的方式来绘制图形，在路径绘制的过程过程中有如下几个关键的方法
 
@@ -192,10 +192,50 @@ fill(); //填充路径区域
 
 ### 3，啥？ 颜色？ 要啥自行车
 
+有没有发现我们上面绘制的图绘制出来都是黑白色的，是的，在前端的世界里，只有黑白，那是过不下去滴，所以我们要颜色，五颜六色的那种，由于这里我们主要说图形绘制，就简单介绍两个设置颜色的方法，这两个方法也是经常会用到的
+
+```javascript
+strokeStyle //设置轮廓颜色
+fillStyle //设置填充颜色
+```
+
+相信聪明的你已经从名字上看出来它们的意思以及应该在哪里使用了，下面我们举两个例子来说明一下，还是以上面三角形的例子为基础，上代码
+
+```javascript
+  showTriangle = () => {
+    const e = document.getElementById('canvas');
+    const ctx = e.getContext('2d');
+    ctx.beginPath();
+    ctx.moveTo(100, 50);
+    ctx.lineTo(50, 10);
+    ctx.lineTo(30, 30);
+    ctx.closePath();
+    ctx.strokeStyle = 'red';
+    ctx.stroke();
+  }
+```
+
+如图在这里我们画了条红色边框的三角形，其实就多了一行代码，使用strokeStyle设置边框颜色，同样再来使用另一个看看是什么效果
+
+```javascript
+  showTriangleFill = () => {
+    const e = document.getElementById('canvas');
+    const ctx = e.getContext('2d');
+    ctx.beginPath();
+    ctx.moveTo(100, 50);
+    ctx.lineTo(50, 10);
+    ctx.lineTo(30, 30);
+    ctx.closePath();
+    ctx.fillStyle='yellow';
+    ctx.fill();
+  }
+```
 
 
+这次我们使用fillStyle设置颜色，画了一个黄色填充的三角形，就问你爽不爽，是不是开始想搞事情了，不急还有更爽的，看招
 
 
+## 3，路径高级画法
 
 
-## 3，总结
+## 4，总结

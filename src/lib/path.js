@@ -16,6 +16,7 @@ export default class Path extends Component {
     ctx.lineTo(50, 10);
     ctx.lineTo(30, 30);
     ctx.closePath();
+    ctx.strokeStyle = 'red';
     ctx.stroke();
   }
   showTriangleFill = () => {
@@ -26,6 +27,7 @@ export default class Path extends Component {
     ctx.lineTo(50, 10);
     ctx.lineTo(30, 30);
     ctx.closePath();
+    ctx.fillStyle='yellow';
     ctx.fill();
   }
   showArc = () => {
