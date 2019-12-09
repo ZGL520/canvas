@@ -1,18 +1,24 @@
-先说明一下，我们所有的展示代码都在react项目中进行
+先说明一下，我们所有的展示代码都在react项目中进行,本文为在阅读MDN文档时做的记录
+
 
 ----
+在canvas中有一个关键的方法: 
 
-在canvas中有一个关键的方法: getCentext,就是我们在例子里使用的这个方法，getCentext返回canvas的绘制上下文，有了这个上下文，我们就可以在canvas上为所欲为，疯狂输出......
+    getCentext
+    
+getCentext返回canvas的绘制上下文，有了这个上下文，我们就可以在canvas上为所欲为，疯狂输出......
 
-该说正事了，图形绘制
-
-----
+## 1，矩形
 
 canvas的图形绘制基本就是两种，一种是矩形，一种是路径
 
-## 矩形
+矩形绘制，在绘制矩形是需要关注3个方法，分别是：
 
-矩形绘制，在绘制矩形是需要关注3个方法，分别是fillRect，strokeRect，clearRect，这三个方法的参数依次都是x:左边距离、y:顶部距离、w:宽度、h:高度，但是他们的作用不同，活不多说，上菜···不是···上代码
+    fillRect
+    strokeRect
+    clearRect
+    
+这三个方法的参数依次都是x:左边距离、y:顶部距离、w:宽度、h:高度，但是他们的作用不同，活不多说，上菜···不是···上代码
 
 创建一个宽300px，高300px的canvas节点，设置一个背景色便于观察效果
 ```html
@@ -24,7 +30,7 @@ canvas的图形绘制基本就是两种，一种是矩形，一种是路径
   </div>
 ```
 
-### fillRect方法
+### 1，fillRect方法
 
 ```javascript
   drawFill = () => { //绘制填充矩形
@@ -53,7 +59,7 @@ drawFill方法获取canvas节点，再获取canvas上下文，最后使用fillRe
  
 ![](https://user-gold-cdn.xitu.io/2019/12/4/16ed16445d046dfd?w=784&h=738&f=jpeg&s=10288)
 
-### strokeRect方法
+### 2，strokeRect方法
 
 ```javascript
   drawStroke = () => { //绘制边框矩形
@@ -79,7 +85,7 @@ drawFill方法获取canvas节点，再获取canvas上下文，最后使用fillRe
   }
 ```
 
-### clearRect方法
+### 3，clearRect方法
 
 ```javasctipt
   drawClear = () => { //清除指定区域
@@ -150,10 +156,52 @@ lineTo(); //绘制一条道指定位置的线，可以理解为划线的过程
 
 如图：
 
-![]()
 
-### 2，我想看到我画的图
-在前面的介绍中我们知道了如何通过路径来绘制一个图形，下面来讲两个方法，这两个方法决定以怎样的方式来呈现我们绘制的图形
+![](https://user-gold-cdn.xitu.io/2019/12/9/16eeb0339b7bdf8b?w=726&h=418&f=jpeg&s=4609)
+
+### 2，我还想画个圈圈诅。。。组合起来看看
+
+接下来将说道关于圆的方法arc
+
+  arc(x, y, r, start, end, anticlockwise)
+
+arc接受6个参数，分别是
+
+    x //圆心坐标x
+    y //圆心坐标y
+    r //半径
+    start //开始位置
+    end //结束位置
+    anticlockwise //方向
+
+其中开始位置和结束位置以弧度计算, 圆的一周弧度为， Math.PI*2,arc具体使用如下
+
+```javascript
+  showArcOpen = () => { //半圆
+    const e = document.getElementById('canvas');
+    const ctx = e.getContext('2d');
+    ctx.beginPath();
+    ctx.arc(100, 75, 50, Math.PI*.5, Math.PI*1.5, true);
+    ctx.stroke();
+  }
+  showArcClose = () => { //完整圆
+    const e = document.getElementById('canvas');
+    const ctx = e.getContext('2d');
+    ctx.beginPath();
+    ctx.arc(160, 75, 40, 0, Math.PI*2, false);
+    ctx.closePath();
+    ctx.stroke();
+  }
+```
+
+效果图
+
+
+![](https://user-gold-cdn.xitu.io/2019/12/9/16eeb042259fc8e5?w=708&h=388&f=jpeg&s=5747)
+
+
+### 3，我想看到我画的图
+在前面的介绍中知道了如何通过路径来绘制一个图形，下面来讲两个方法，这两个方法决定以怎样的方式来呈现我们绘制的图形
 ```javascript
 stroke(); //绘制路径轮廓
 fill(); //填充路径区域
@@ -174,6 +222,9 @@ fill(); //填充路径区域
 在这个方法中我们只是去掉了stroke方法，其他的步骤都一样，如下图我们将什么都看不见
 
 
+![](https://user-gold-cdn.xitu.io/2019/12/9/16eeb069e12dcb69?w=762&h=430&f=jpeg&s=3868)
+
+
 这里其实我们的图形已经绘制完成，当一个图形绘制完成后还需要调用相应的方法来决定怎样呈现图形，shroke和fill分别表示使用描边和填充的方法，像前面例子提到的在绘制完成后调用了shroke方法，这样我们就看到的我们绘制的三角形，如果是调用fill方法，将会使用填充的方法呈现，举个🌰
 
 ```javasctipt
@@ -190,16 +241,19 @@ fill(); //填充路径区域
 ```
 效果如图
 
-### 3，啥？ 颜色？ 要啥自行车
 
-有没有发现我们上面绘制的图绘制出来都是黑白色的，是的，在前端的世界里，只有黑白，那是过不下去滴，所以我们要颜色，五颜六色的那种，由于这里我们主要说图形绘制，就简单介绍两个设置颜色的方法，这两个方法也是经常会用到的
+![](https://user-gold-cdn.xitu.io/2019/12/9/16eeb075956acc94?w=730&h=406&f=jpeg&s=4486)
+
+### 4，啥？ 颜色？ 要啥自行车
+
+有没有发现上面绘制的图绘制出来都是黑白色的，是的，在前端的世界里，只有黑白，那是过不下去滴，所以我们要颜色，五颜六色的那种，这里主要说图形绘制，就简单介绍两个设置颜色的方法，这两个方法也是经常会用到的
 
 ```javascript
 strokeStyle //设置轮廓颜色
 fillStyle //设置填充颜色
 ```
 
-相信聪明的你已经从名字上看出来它们的意思以及应该在哪里使用了，下面我们举两个例子来说明一下，还是以上面三角形的例子为基础，上代码
+相信聪明的你已经从名字上看出来它们的意思以及应该在哪里使用了，下面举两个例子来说明一下，还是以上面三角形的例子为基础，上代码
 
 ```javascript
   showTriangle = () => {
@@ -215,7 +269,9 @@ fillStyle //设置填充颜色
   }
 ```
 
-如图在这里我们画了条红色边框的三角形，其实就多了一行代码，使用strokeStyle设置边框颜色，同样再来使用另一个看看是什么效果
+![](https://user-gold-cdn.xitu.io/2019/12/9/16eeb085becb355b?w=698&h=398&f=jpeg&s=5136)
+
+如图在这里画了条红色边框的三角形，其实就多了一行代码，使用strokeStyle设置边框颜色，同样再来使用另一个看看是什么效果
 
 ```javascript
   showTriangleFill = () => {
@@ -231,11 +287,107 @@ fillStyle //设置填充颜色
   }
 ```
 
+![](https://user-gold-cdn.xitu.io/2019/12/9/16eeb08a7bfd70db?w=750&h=388&f=jpeg&s=4543)
 
-这次我们使用fillStyle设置颜色，画了一个黄色填充的三角形，就问你爽不爽，是不是开始想搞事情了，不急还有更爽的，看招
+这次使用fillStyle设置颜色，画了一个黄色填充的三角形，就问你爽不爽，是不是开始想搞事情了，不急还有更爽的，看招
 
 
-## 3，路径高级画法
+## 3，路径高级用法
 
+有木有发现，虽然一直在画图，但画的都是直线，图形的边都是由直线构成，想要曲线边组成的图形？来，这里主要介绍一下两个函数
+
+### 1，二次贝塞尔曲线
+
+  quadraticCurveTo(cp1x, cp1y, x, y)
+
+quadraticCurveTo方法接受四个参数，分别是
+
+    cp1x //控制点x
+    cp1y //控制点y
+    x //目标点x
+    y //目标点y
+
+```javascript
+  showQuadraticCurveTo = () => {
+    const e = document.getElementById('canvas');
+    const ctx = e.getContext('2d');
+    ctx.beginPath();
+    ctx.moveTo(75, 50);
+    ctx.quadraticCurveTo(25,100,50,120);
+    ctx.stroke();
+  }
+```
+
+showQuadraticCurveTo方法中将画一条从（75，50）到（50，120）的曲线，控制点为（25，100）,效果如图
+
+
+![](https://user-gold-cdn.xitu.io/2019/12/9/16eeb0912ec9256a?w=770&h=406&f=jpeg&s=4420)
+
+接着再来结合lineTo方法实现一片叶子
+
+```javascript
+  showQuadraticCurveToClose = () => {
+    const e = document.getElementById('canvas');
+    const ctx = e.getContext('2d');
+    ctx.beginPath();
+    ctx.moveTo(150, 50);
+    ctx.quadraticCurveTo(100,100,150,120);
+    ctx.moveTo(150, 50);
+    ctx.quadraticCurveTo(200,80,150,120);
+    ctx.moveTo(150, 50);
+    ctx.lineTo(150, 120);
+    ctx.moveTo(150, 70);
+    ctx.lineTo(160, 62);
+    ctx.moveTo(150, 90);
+    ctx.lineTo(160, 83);
+    ctx.moveTo(150, 110);
+    ctx.lineTo(160, 103);
+    ctx.moveTo(150, 80);
+    ctx.lineTo(140, 70);
+    ctx.moveTo(150, 100);
+    ctx.lineTo(140, 90);
+    ctx.moveTo(150, 120);
+    ctx.lineTo(140, 110);
+    ctx.stroke();
+  }
+```
+
+![](https://user-gold-cdn.xitu.io/2019/12/9/16eeb0963bd108f0?w=780&h=450&f=jpeg&s=5802)
+
+### 2，三次贝塞尔曲线
+
+    bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y)
+
+三次贝塞尔曲线与二次贝塞尔曲线的主要区别是三次贝塞尔曲线需要6个参数，多出来的两个参数为第二个控制点
+
+    cp1x //第一个控制点x
+    cp1y //第一个控制点y
+    cp2x //第二个控制点x
+    cp2y //第二个控制点y
+    x //目标点x
+    y //目标点y
 
 ## 4，总结
+
+主要方法
+
+    getContext // 返回canvas上下文
+    fillRect // 绘制填充矩形
+    clearRect // 清除指定区域
+    strokeRect // 绘制矩形
+    moveTo // 移动笔触
+    lineTo // 绘制直线
+    beginPath // 创建一条路径
+    closePath // 关闭一条路径
+    stroke // 绘制图形轮廓
+    fill // 填充图形
+    arc // 画圆函数
+    quadraticCurveTo //二次贝塞尔曲线
+    bezierCurveTo //三次贝塞尔曲线
+    
+
+以上为在了解canvas中随笔记录，如有错误，麻烦指正
+    
+参考文献：
+
+https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes
